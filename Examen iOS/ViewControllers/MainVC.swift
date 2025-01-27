@@ -42,22 +42,29 @@ class MainVC: UIViewController, UITableViewDataSource,UISearchBarDelegate {
             findMovieBy(name: "a")
         }
     }
-
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
-        list = []
-        tableView.reloadData()
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       if (segue.identifier == "navigateToDetail") {
-           let detailViewController = segue.destination as! DetailVC
-           let indexPath = tableView.indexPathForSelectedRow!
-           let movie = list[indexPath.row]
-           detailViewController.movie = movie
-           tableView.deselectRow(at: indexPath, animated: true)
-           }
-       }
+        if (segue.identifier == "navigateToDetail") {
+            let detailViewController = segue.destination as! DetailVC
+            let indexPath = tableView.indexPathForSelectedRow!
+            let movie = list[indexPath.row]
+            
+            // Fetch full movie details using the movie's imdbID
+            Task {
+                do {
+                    let fullMovieDetails = try await MovieProvider.findMovieBy(id: movie.imdbID)
+                    detailViewController.movie = fullMovieDetails
+                    detailViewController.updateUI() // Update UI after fetching details
+                } catch {
+                    print("Error fetching movie details: \(error)")
+                }
+            }
+            
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+
+
 
     func findMovieBy(name: String) {
         Task {
