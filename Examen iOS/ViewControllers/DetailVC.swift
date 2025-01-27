@@ -19,7 +19,6 @@ class DetailVC: UIViewController {
     @IBOutlet weak var countryLabel: UILabel!
     
     var movie: Movie!
-    //var movieID: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +29,6 @@ class DetailVC: UIViewController {
         titleLabel.text = movie.title
         yearLabel.text = movie.year
         
-        
-        // Fetch full movie details using the movie's imdbID
         Task {
             do {
                 movie = try await MovieProvider.findMovieBy(id: movie.imdbID)
@@ -44,11 +41,7 @@ class DetailVC: UIViewController {
     
     func updateUI() {
         guard let movie = movie else { return }
-        
-        //posterImageView.loadFrom(url: movie.poster)
-        
-        //titleLabel.text = movie.title
-        //yearLabel.text = movie.year
+
         plotTextView.text = movie.plot ?? "Plot not available"
         runtimeLabel.text = movie.runtime ?? "Runtime not specified"
         genreLabel.text = movie.genre ?? "Genre not specified"

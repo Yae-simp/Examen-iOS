@@ -14,7 +14,6 @@ class MainVC: UIViewController, UITableViewDataSource,UISearchBarDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         tableView.dataSource = self
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.delegate = self
@@ -35,8 +34,7 @@ class MainVC: UIViewController, UITableViewDataSource,UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if let query = searchBar.text { // If there is text in the search bar...
-            // Call the function to find superheroes by the entered name.
+        if let query = searchBar.text {
             findMovieBy(name: query)
         } else {
             findMovieBy(name: "a")
@@ -49,12 +47,9 @@ class MainVC: UIViewController, UITableViewDataSource,UISearchBarDelegate {
             let indexPath = tableView.indexPathForSelectedRow!
             let movie = list[indexPath.row]
             detailViewController.movie = movie
-            
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
-
-
 
     func findMovieBy(name: String) {
         Task {
