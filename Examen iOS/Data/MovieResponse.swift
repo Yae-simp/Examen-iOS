@@ -20,7 +20,7 @@ struct MovieResponse: Codable {
 struct Movie: Codable {
     let imdbID: String
     let title: String
-    let year: String?
+    let year: String
     let poster: String
     let plot: String?
     let runtime: String?
